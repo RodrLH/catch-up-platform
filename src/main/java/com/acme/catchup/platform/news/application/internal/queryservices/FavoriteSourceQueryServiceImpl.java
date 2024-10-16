@@ -1,15 +1,7 @@
-/**
- * FavoriteSourceQueryService Implementation
- *
- * @summary
- * The FavoriteSourceQueryServiceImpl class is an implementation of the FavoriteSourceQueryService interface.
- * It is responsible for handling the GetAllFavoriteSourceByNewsApiKeyQuery, GetFavoriteSourceByIdQuery, and GetFavoriteSourceByNewsApiKeyAndSourceIdQuery queries.
- *
- */
 package com.acme.catchup.platform.news.application.internal.queryservices;
 
 import com.acme.catchup.platform.news.domain.model.aggregates.FavoriteSource;
-import com.acme.catchup.platform.news.domain.model.queries.GetAllFavoriteSourceByNewsApiKeyQuery;
+import com.acme.catchup.platform.news.domain.model.queries.GetAllFavoriteSourcesByNewsApiKeyQuery;
 import com.acme.catchup.platform.news.domain.model.queries.GetFavoriteSourceByIdQuery;
 import com.acme.catchup.platform.news.domain.model.queries.GetFavoriteSourceByNewsApiKeyAndSourceIdQuery;
 import com.acme.catchup.platform.news.domain.services.FavoriteSourceQueryService;
@@ -19,6 +11,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * FavoriteSourceQueryService Implementation
+ *
+ * @summary
+ * Implementation of the FavoriteSourceQueryService interface.
+ * It is responsible for handling favorite source queries.
+ *
+ * @since 1.0
+ */
 @Service
 public class FavoriteSourceQueryServiceImpl implements FavoriteSourceQueryService {
     private final FavoriteSourceRepository favoriteSourceRepository;
@@ -28,10 +29,15 @@ public class FavoriteSourceQueryServiceImpl implements FavoriteSourceQueryServic
     }
 
     /**
-     * Handles the GetFavoriteSourceByIdQuery query.
-     *
-     * @param query - the GetFavoriteSourceByIdQuery query
-     * @return an Optional of FavoriteSource
+     * {@inheritDoc}
+     */
+    @Override
+    public List<FavoriteSource> handle(GetAllFavoriteSourcesByNewsApiKeyQuery query) {
+        return favoriteSourceRepository.findAllByNewsApiKey(query.newsApiKey());
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public Optional<FavoriteSource> handle(GetFavoriteSourceByIdQuery query) {
@@ -39,21 +45,7 @@ public class FavoriteSourceQueryServiceImpl implements FavoriteSourceQueryServic
     }
 
     /**
-     * Handles the GetAllFavoriteSourceByNewsApiKeyQuery query.
-     *
-     * @param query - the GetAllFavoriteSourceByNewsApiKeyQuery query
-     * @return a list of FavoriteSource
-     */
-    @Override
-    public List<FavoriteSource> handle(GetAllFavoriteSourceByNewsApiKeyQuery query) {
-        return favoriteSourceRepository.findAllByNewsApiKey(query.newsApiKey());
-    }
-
-    /**
-     * Handles the GetFavoriteSourceByNewsApiKeyAndSourceIdQuery query.
-     *
-     * @param query - the GetFavoriteSourceByNewsApiKeyAndSourceIdQuery query
-     * @return an Optional of FavoriteSource
+     * {@inheritDoc}
      */
     @Override
     public Optional<FavoriteSource> handle(GetFavoriteSourceByNewsApiKeyAndSourceIdQuery query) {
